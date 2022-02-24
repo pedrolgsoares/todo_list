@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:todo_list/app/pages/widgets/todo_item.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({Key? key}) : super(key: key);
@@ -17,39 +18,48 @@ class _TodoPageState extends State<TodoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Todo list')),
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              _buildHeaderList(),
-              const SizedBox(height: 20),
-              _buildElevatedButton(),
-              const SizedBox(height: 20),
-              _buildListView(),
-              const SizedBox(height: 20),
-              _buildRowInfoButton()
-            ],
+    return SafeArea(
+      child: Scaffold(
+        //! CRIAR UMA APP BAR PERSONALIZADA
+        // appBar: AppBar(title: const Text('Todo list')),
+        body: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                _buildHeaderList(),
+                const SizedBox(height: 20),
+                _buildElevatedButton(),
+                const SizedBox(height: 20),
+                _buildListView(),
+                const SizedBox(height: 20),
+                _buildRowInfoButton()
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildHeaderList() => Row(
-        children: const [
-          Text('Lista de tarefas',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25)),
-          Icon(Icons.list, size: 52)
+  Widget _buildHeaderList() => Column(
+        children: [
+          Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text('Lista de tarefas',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25)),
+              Icon(Icons.list, size: 52),
+            ],
+          ),
+          const Text('Projeto desenvolvido para estudos', style: TextStyle( fontSize: 10),),
         ],
       );
 
   Widget _buildElevatedButton() => Row(
         children: [
-           Expanded(
+          Expanded(
             child: TextField(
                 controller: _todoController,
                 decoration: const InputDecoration(
@@ -75,6 +85,18 @@ class _TodoPageState extends State<TodoPage> {
         ],
       );
 
+  Widget _buildListView() => Flexible(
+    child: ListView(
+          shrinkWrap: true,
+          children: [
+            for (String todo in todos)
+              TodoItem(
+                title: todo,
+              ),
+          ],
+        ),
+  );
+
   Widget _buildRowInfoButton() => Row(
         children: [
           const Expanded(
@@ -89,20 +111,4 @@ class _TodoPageState extends State<TodoPage> {
           ),
         ],
       );
-
-  Widget _buildListView() => Flexible(
-    child: ListView(
-          shrinkWrap: true,
-          children: [
-            for (String todo in todos)
-              ListTile(
-                title:  Text('Tarefa $todo'),
-                subtitle: const Text('criada no dia: 24/02/2022'),
-                onTap: () {
-                  print('Clicado na tarefa $todo');
-                },
-              ),
-          ],
-        ),
-  );
 }
