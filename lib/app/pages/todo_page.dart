@@ -46,7 +46,7 @@ class _TodoPageState extends State<TodoPage> {
   Widget _buildHeaderList() => Column(
         children: [
           Row(
-             mainAxisAlignment: MainAxisAlignment.center,
+             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
               Text('Lista de tarefas',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25)),
