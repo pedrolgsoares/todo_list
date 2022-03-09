@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:todo_list/app/models/todo.dart';
 import 'package:todo_list/app/pages/widgets/todo_item.dart';
 
 class TodoPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _TodoPageState extends State<TodoPage> {
   // Criando controlador
   final TextEditingController _todoController = TextEditingController();
 
-  List<String> todos = [];
+  List<Todo> todos = [];
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,11 @@ class _TodoPageState extends State<TodoPage> {
               onPressed: () {
                 String text = _todoController.text;
                 setState(() {
-                  todos.add(text);
+                  Todo newTodo = Todo(
+                    title: text, 
+                    dateTime: DateTime.now()
+                  );
+                  todos.add(newTodo);
                 });
                 _todoController.clear();
               },
@@ -89,9 +94,9 @@ class _TodoPageState extends State<TodoPage> {
     child: ListView(
           shrinkWrap: true,
           children: [
-            for (String todo in todos)
+            for (Todo todo in todos)
               TodoItem(
-                title: todo,
+                todo:  todo,
               ),
           ],
         ),
