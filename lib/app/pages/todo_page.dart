@@ -47,14 +47,17 @@ class _TodoPageState extends State<TodoPage> {
   Widget _buildHeaderList() => Column(
         children: [
           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
               Text('Lista de tarefas',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25)),
               Icon(Icons.list, size: 52),
             ],
           ),
-          const Text('Projeto desenvolvido para estudos', style: TextStyle( fontSize: 10),),
+          const Text(
+            'Projeto desenvolvido para estudos',
+            style: TextStyle(fontSize: 10),
+          ),
         ],
       );
 
@@ -73,10 +76,7 @@ class _TodoPageState extends State<TodoPage> {
               onPressed: () {
                 String text = _todoController.text;
                 setState(() {
-                  Todo newTodo = Todo(
-                    title: text, 
-                    dateTime: DateTime.now()
-                  );
+                  Todo newTodo = Todo(title: text, dateTime: DateTime.now());
                   todos.add(newTodo);
                 });
                 _todoController.clear();
@@ -84,23 +84,24 @@ class _TodoPageState extends State<TodoPage> {
               style:
                   ElevatedButton.styleFrom(padding: const EdgeInsets.all(16)),
               child: const Icon(
-                Icons.add,
+                Icons.task_alt,
                 size: 25,
               ))
         ],
       );
 
   Widget _buildListView() => Flexible(
-    child: ListView(
+        child: ListView(
           shrinkWrap: true,
           children: [
             for (Todo todo in todos)
               TodoItem(
-                todo:  todo,
+                todo: todo,
+                onDelete: onDelete,
               ),
           ],
         ),
-  );
+      );
 
   Widget _buildRowInfoButton() => Row(
         children: [
@@ -116,4 +117,10 @@ class _TodoPageState extends State<TodoPage> {
           ),
         ],
       );
+
+  onDelete(Todo todo) {
+    setState(() {
+      todos.remove(todo);
+    });
+  }
 }
